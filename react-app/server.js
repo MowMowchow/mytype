@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 // Mongo Connections
 //var { MongoClient } = require("mongodb");
 getConnection = async () => {
-    const MONGODB_URI = 'mongodb+srv://Jason:sushila44@cluster0.iq2bk.mongodb.net/gainspot?retryWrites=true&w=majority';
+    const MONGODB_URI = 'mongodb+srv://jason:Fuadisnot123@mytype.wfzap.mongodb.net/MyType?retryWrites=true&w=majority';
     try {
         await mongoose.connect(MONGODB_URI || process.env.MONGODB_URL, {
             useNewUrlParser: true,
@@ -45,12 +45,21 @@ app.all('/*', function(req, res, next) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-var Item = require('./models/Exercise_model');
+var User = require('./models/User_Model');
 
 const { response } = require('express');
 
 
-
+app.post('/newuser', function(req, res){
+    const user = new User({Username: req.body.Username, Email: req.body.Email, Alphabet: req.body.Alphabet, wpm_pb: req.body.wpm_pb});
+    user.save(function(err, savedUser){
+        if(err){
+            res.status(500).send({error: "Could not upload user"});
+        } else {
+            res.send(savedUser);
+        }
+    });
+});
 
 
 
