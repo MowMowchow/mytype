@@ -9,3 +9,15 @@ profile
 about
 typing screen
 endscreen
+
+
+https://www.name.com/github-students
+
+
+**DEPLOYMENT:
+heroku git:remote -a mytypee
+
+>>>MUST CHANGE SingUp.js link before pushing
+git subtree push --prefix react-app heroku master
+
+heroku logs --app=mytypee
