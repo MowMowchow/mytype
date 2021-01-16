@@ -1,14 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import fapp from './base.js';
+import React, { useEffect, useState } from "react";
+import './Home.css';
+import { Link } from 'react-router-dom';
 
-export const AuthContext = React.createContext();
 
-export const AuthProvider = ({ children }) => {
-	const [ currentUser, setCurrentUser ] = useState(null);
+const logKey = e => {
+	window.location.replace(window.location.href+'tt');
+}
 
-    useEffect(() => {
-    fapp.auth().onAuthStateChanged(setCurrentUser);
-	}, []);
+const Keypress = () => {
+	useEffect(() => {
+		window.addEventListener("keypress", logKey);
+		return () => {
+			window.removeEventListener("keypress", logKey);
+		}
+	}, [])
+	return null;
+}
 
-	return <AuthContext.Provider value={{ currentUser }}>{children}</AuthContext.Provider>;
-};
+const Home = () => {
+
+		return (
+			<div className="home-container">
+				<Keypress />
+				<div className="start-prompt-container">
+					<h1 className="start-prompt">[Press Any Key to Start]</h1>
+				</div>
+			</div>
+		)
+}
+
+export default Home;

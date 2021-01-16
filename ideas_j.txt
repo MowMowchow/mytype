@@ -1,0 +1,11 @@
+had to take out: $ . ""
+
+navbar
+home page
+profile
+login
+sign up
+profile
+about
+typing screen
+endscreen

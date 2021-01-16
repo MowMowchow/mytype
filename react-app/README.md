@@ -1,8 +1,8 @@
-# Getting Started with Create React App
+# MyType (HTN 2021)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+MyType is an easy solution to improve your typing skills! 
 
-## Available Scripts
+## Information
 
 In the project directory, you can run:
 
@@ -68,3 +68,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+

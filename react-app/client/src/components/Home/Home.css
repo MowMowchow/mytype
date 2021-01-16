@@ -1,0 +1,21 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height : 100vh;
+    background-color: #2B2D42;
+}
+
+.start-prompt-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-top: -5%;
+}
+
+.start-prompt{
+    font-size: 100px;
+    color: #EDF2F4;
+    font-weight: 400;
+}
