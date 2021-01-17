@@ -60,9 +60,19 @@
 } 
 
 .quote { 
-  background-color: #ccda46; 
+  background-color: #EF233C; 
   font-size: 1.5rem; 
   margin: 10px; 
   padding: 25px; 
   box-shadow: black 5px 8px 5px; 
 } 
+
+.cpm, .wpm {
+  background-color: #EF233C;
+  height: 60px;
+  width: 70px;
+  margin: 8px;
+  padding: 12px;
+  border-radius: 20%;
+  box-shadow: black 5px 8px 5px;
+}

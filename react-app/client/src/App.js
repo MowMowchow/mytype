@@ -12,6 +12,7 @@ import Profile from './components/Profile/Profile';
 import Typing_Test from './components/Typing_Test/Typing_Test';
 import EndScreen from './components/EndScreen/EndScreen';
 import About from './components/About/About';
+import Nav from './components/Nav/Nav';
 
 
 
@@ -35,6 +36,7 @@ function App() {
 		<AuthProvider>
 			<Router>
 				<div>
+					<Nav loggedin = {loggedIn} loggedout = {loggedOut} />
           <Switch>
             <Route path="/" exact component={Home}/>
             <Route path="/login" exact component={Login}/>

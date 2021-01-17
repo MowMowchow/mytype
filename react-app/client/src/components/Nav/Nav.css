@@ -1,0 +1,58 @@
+.nav-container{
+  position: absolute;
+  display: inline;
+  background: transparent;
+  z-index: 1000;
+  width: 100%;
+}
+
+.nav-mytype-container,
+.nav-about-container,
+.nav-login-container,
+.nav-profile-container{
+
+}
+
+.nav-mytype-container{
+  margin-left: 15px;
+  float: left;
+}
+
+.nav-about-container{
+  float: right;
+  margin-right: 10px;
+}
+
+.nav-login-container{
+  float: right;
+  margin-right: 30px;
+}
+
+.nav-profile-container{
+  float: right;
+  margin-right: 30px;
+}
+
+
+.nav-link:hover{
+  text-decoration: none;
+}
+
+.nav-header{
+  color: #FBFCFD;
+  font-family: Montserrat;
+  font-size: 34px;
+  font-weight: 500;
+  transition: 0.15s; 
+}
+
+
+.nav-header:hover{
+  text-decoration: none;
+  color: #FE6D73 !important;
+  transition: 0.15s; 
+}
+
+.hidden {
+  display: none;
+}
