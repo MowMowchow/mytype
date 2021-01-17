@@ -6,6 +6,7 @@ import keyboard
 import time
 from pymongo import MongoClient
 import logging
+import sys
 
 firebaseConfig = {
     "apiKey": "AIzaSyAutqLzz7ib4oWEoOzSo95WwrHd4bpZqF8",
@@ -22,16 +23,11 @@ auth = firebase.auth()
 client = MongoClient("mongodb+srv://jason:Fuadisnot123@mytype.wfzap.mongodb.net/MyType?retryWrites=true&w=majority")
 db = client.get_database('MyType')
 
-email_confirm = ""
-
 
 class KeyboardReader:
 
     def __init__(self):
         self._running = True
-
-    def terminate(self):
-        self._running = False
 
     def run(self, email):
 
@@ -55,7 +51,7 @@ class KeyboardReader:
             if event.event_type == "up":
                 if t1 == 0:
                     t1 = event.time
-                elif t1 != 0 and len(event.name) <= 1:
+                elif t1 != 0 and len(event.name) <= 1 and event.name in long:
                     curr_word += event.name
                     # print("time taken between keys " + str(event.time - t1))
 
@@ -70,19 +66,24 @@ class KeyboardReader:
                     curr_word = ""
                     print(wpm_avg)
 
-            if abs(time_track - time.time()) > 20 and event.event_type == "up" and len(event.name) <= 1:
+            if abs(time_track - time.time()) >= 10 and event.event_type == "up" and len(event.name) <= 1:
                 users = db.users
 
                 already_saved_paths = users.find_one({'Email': str(email)})
 
-                sum_avg_alphabet = {key: (already_saved_paths['Alphabet'][key] + averages[key]) / 2
-                                    for key in already_saved_paths['Alphabet']}
+                sum_avg_alphabet = {}
+
+                for key in already_saved_paths['Alphabet']:
+                    if already_saved_paths['Alphabet'][key] != averages[key]:
+                        sum_avg_alphabet[key] = (already_saved_paths['Alphabet'][key] + averages[key]) / 2
+                    else:
+                        sum_avg_alphabet[key] = already_saved_paths['Alphabet'][key]
 
                 time_track = time.time()
                 newvalues = {"$set": {"Alphabet": sum_avg_alphabet}}
 
                 # print(averages)
-                users.update_one(already_saved_paths, newvalues).modified_count
+                print(users.update_one(already_saved_paths, newvalues).modified_count)
 
 
 class App(tk.Tk):
@@ -118,7 +119,6 @@ class App(tk.Tk):
         frame = self.frames[page_name]
         frame.tkraise()
         if email is not None:
-            k = KeyboardReader()
             t = threading.Thread(target=k.run, args=(email,))
             t.start()
 
@@ -130,6 +130,7 @@ class App(tk.Tk):
         frame.tkraise()
         k = KeyboardReader()
         t = threading.Thread(target=k.run, args=(email,))
+        t.daemon = True
         t.start()
 
 
@@ -137,8 +138,6 @@ class StartPage(tk.Frame):
 
     def __init__(self, parent, controller, email=None):
         tk.Frame.__init__(self, parent)
-
-        self.email_confirm = ""
 
         def attempt_login():
             try:
@@ -182,6 +181,12 @@ class MainPage(tk.Frame):
         label.pack(side="top", fill="x", pady=10)
 
 
+def on_closing():
+    app.destroy()
+    sys.exit()
+
+
 if __name__ == "__main__":
     app = App()
+    app.protocol("WM_DELETE_WINDOW", lambda: on_closing())
     app.mainloop()
