@@ -5,7 +5,6 @@ import pyrebase
 import keyboard
 import time
 from pymongo import MongoClient
-import logging
 import sys
 
 firebaseConfig = {
@@ -46,7 +45,7 @@ class KeyboardReader:
         time_track, timestart = time.time(), time.time()
         curr_word = ""
 
-        while self._running == True:
+        while self._running:
             event = keyboard.read_event()
             if event.event_type == "up":
                 if t1 == 0:
@@ -102,25 +101,22 @@ class App(tk.Tk):
         self.container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (StartPage, MainPage):
-            page_name = F.__name__
-            frame = F(parent=self.container, controller=self, email=None)
-            self.frames[page_name] = frame
+        F = StartPage
+        page_name = F.__name__
+        frame = F(parent=self.container, controller=self)
+        self.frames[page_name] = frame
 
-            # put all of the pages in the same location;
-            # the one on the top of the stacking order
-            # will be the one that is visible.
-            frame.grid(row=0, column=0, sticky="nsew")
+        # put all of the pages in the same location;
+        # the one on the top of the stacking order
+        # will be the one that is visible.
+        frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame("StartPage")
 
-    def show_frame(self, page_name, email=None):
+    def show_frame(self, page_name):
         '''Show a frame for the given page name'''
         frame = self.frames[page_name]
         frame.tkraise()
-        if email is not None:
-            t = threading.Thread(target=k.run, args=(email,))
-            t.start()
 
     def go_to_main(self, email):
         '''Show a frame for the given page name'''
@@ -136,49 +132,85 @@ class App(tk.Tk):
 
 class StartPage(tk.Frame):
 
-    def __init__(self, parent, controller, email=None):
+    def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-
+        self.configure(background='#2B2D42')
         def attempt_login():
             try:
                 email = entry_user.get()
                 password = entry_pass.get()
                 login = auth.sign_in_with_email_and_password(email, password)
 
+                users = db.users
+                already_saved_paths = users.find_one({'Email': str(email)})
+                if not already_saved_paths['wpm_list']:
+                    newvalues = {"$set": {"wpm_list": [0 for _ in range(20)]}}
+                    print(users.update_one(already_saved_paths, newvalues).modified_count)
+
                 controller.go_to_main(email)
             except:
                 status['text'] = "Invalid email or password"
 
         self.controller = controller
-        login_label = tk.Label(self, text="Username")
-        login_label.pack(side="top", fill="x", pady=10)
+
+        titleFont= tkfont.Font(family='MS Reference Sans Serif', name='buttonFont', size=20, weight='bold')
+        buttonFont= tkfont.Font(family='PT Sans Narrow', name='appHighlightFont', size=12, weight='bold')
+
+        loginfont= tkfont.Font(family='MS Reference Sans Serif', name='loginfont', size=10)
+
+        title = tk.Label(self, text="MyType", font=titleFont, bg="#2B2D42", fg="#EDF2F4")
+        title.pack(side="top", fill="x", padx=20, pady = 5)
+
+        login_label = tk.Label(self, text="Username", font=buttonFont, bg="#2B2D42", fg="#E0BF6E")
+        login_label.pack(side="top", fill="x", padx=20, pady = 3)
 
         entry_user = tk.Entry(self)
-        entry_user.pack()
+        entry_user.pack(padx='20', pady='5')
 
-        label_pass = tk.Label(self, text="Password")
-        label_pass.pack()
+        label_pass = tk.Label(self, text="Password", font=buttonFont, bg="#2B2D42", fg="#E0BF6E")
+        label_pass.pack(padx='20', pady='3')
 
         entry_pass = tk.Entry(self)
-        entry_pass.pack()
+        entry_pass.pack(padx='20', pady='5')
 
         button2 = tk.Button(self, text="Login",
-                            command=attempt_login)
+                            command=attempt_login, font=loginfont, bg="#2B2D42", fg="#E0BF6E", relief="sunken")
         button2.pack()
 
-        status = tk.Label(self, text="")
-        status.pack(side="top", fill="x", pady=10)
+        status = tk.Label(self, text="", bg="#2B2D42", fg="#E0BF6E")
+        status.pack(side="top", fill="x", pady=5)
 
 
 class MainPage(tk.Frame):
 
     def __init__(self, parent, controller, email):
         tk.Frame.__init__(self, parent)
+        self.configure(background='#2B2D42')
         self.controller = controller
         self.email = email
 
-        label = tk.Label(self, text=self.email, font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
+        titleFont= tkfont.Font(family='MS Reference Sans Serif', name='buttonFont', size=20, weight='bold')
+        buttonFont= tkfont.Font(family='PT Sans Narrow', name='appHighlightFont', size=12, weight='bold')
+        loginfont= tkfont.Font(family='MS Reference Sans Serif', name='loginfont', size=10, weight='bold')
+
+        title = tk.Label(self, text="MyType", font=titleFont, bg="#2B2D42", fg="#EDF2F4")
+        title.pack(side="top", fill="x", padx=20, pady = 5)
+
+        heading = tk.Label(self, text="Current Logged in user:", bg="#2B2D42", fg="#EDF2F4", font=loginfont)
+        heading.pack(side="top", fill="x", pady=10)
+
+        user_title = tk.Label(self, text=self.email, bg="#2B2D42", fg="#FE6D73", font=buttonFont)
+        user_title.pack(side="top", fill="x", pady=2)
+
+        notice = "MyType is currently tracking your keystrokes and reporting time data back to our servers."
+
+        message = tk.Label(self, text=notice, bg="#2B2D42", fg="#D7E2E6", font=buttonFont, wraplength="150")
+        message.pack(side="top", fill="x", pady=2)
+
+        notice1 = "To view your statistics, please login to your profile at <INSERT LINK>"
+
+        message1 = tk.Label(self, text=notice1, bg="#2B2D42", fg="#D7E2E6", font=buttonFont, wraplength="150")
+        message1.pack(side="top", fill="x", pady=5)
 
 
 def on_closing():
