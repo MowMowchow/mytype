@@ -23,7 +23,7 @@ const SignUp = ({history}) =>{
       // send user data to mongo
       // https://mytypee.herokuapp.com/newuser
       // http://localhost:3001/newuser
-      fetch('http://localhost:3001/newuser', { // Send User Info
+      fetch('https://mytypee.herokuapp.com/newuser', { // Send User Info
         method: 'POST',
         headers: {
         'Content-Type': 'application/json;charset=utf-8'

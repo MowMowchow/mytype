@@ -25,31 +25,51 @@ class About extends Component {
               It is open-sourced and can be found on GitHub <p><a href="https://github.com/MowMowchow/mytype">Here</a></p>
               </p>
                 </div>
-            </div>
             <div className="project-container-info">
               <div className="heading2"><h1>How To Use?</h1></div>
-              1)
+              </div>
+							  <div className="step-block">
+								  <p className="step-block-text">1) Create a MyType Acconut</p>
+							</div>
+
+							<div className="step-block">
+								<p className="step-block-text">2) Download the executable file to begin tracking your typing statistics. If you are in a rush, try out a quick typing test.</p>
+							</div>
+
+							<div className="step-block">
+								<p className="step-block-text">
+									3) Check your typing stats and try a custom typing test!{' '}
+								</p>
+              </div>
               
+              <div className="step-block">
+								<p className="step-block-text"> 4) Become a typing master! </p>
+							</div>
               
+            <div className="heading3"><h1>The Team</h1></div>
             </div>
             <div className="about-person-left-container">
             <div className= "about-person-left">
-                
+                <p>Jason Hou: 1B Computer Engineering at the University of Waterloo </p>
+                <p2>Favourite Programming Language: Python</p2>
               </div>
             </div>
             <div className= "about-person-right-container">
             <div className= "about-person-right">
-                p2
+              <p>Christian Kapsales: 1B Computer Science at the University of Waterloo</p>
+              <p2>Favourite Programming Language: Java</p2>
               </div>
             </div>
             <div className= "about-person-left-container">
             <div className= "about-person-left">
-                p3
+                <p>Ankit Batra: 1B Mechatronics Engineering at the University of Waterloo</p>
+                <p2>Favourite Programming Language: C++ </p2>
               </div>
             </div>
             <div className= "about-person-right-container">
               <div className= "about-person-right">
-                p4
+                <p>Aditya Mehrotra: 1st year Computer Science at the University of Toronto</p>
+                <p2>Favourite Programming Language: Python</p2>
               </div>
             </div>
           </div>

@@ -4,6 +4,7 @@
   background: transparent;
   z-index: 1000;
   width: 100%;
+  margin-top: 5px;
 }
 
 .nav-mytype-container,
