@@ -1,10 +1,74 @@
+<DOCTYPE! html>
+<html>
+    <meta charset="utf-8"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
+
+    <script>
+
+
+//get word api and copy code from events init
+
+// call datamuse api
+//format into string
+
+
+//when done, focus on optimizations (bs, bitsets, treemap)
+
+//create character check array
+var char_check = [];
+var mass_string = "";
+
+//call to word generator API
+var HttpClient = function() {
+    this.get = function(aUrl, aCallback) {
+        var anHttpRequest = new XMLHttpRequest();
+        anHttpRequest.onreadystatechange = function() { 
+            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                aCallback(anHttpRequest.responseText);
+        }
+
+        anHttpRequest.open( "GET", aUrl, true );            
+        anHttpRequest.send( null );
+    }
+}
+
+var client = new HttpClient();
+mass_string = client.get('https://random-word-api.herokuapp.com/word?number=1000', function(response) {
+});
+
+//Obj of data to send in future like a dummyDb
+const data = { "Email": 'poopypranav@gmail.com' };
+
+//POST request with body equal on data in JSON format
+fetch('localhost:3001/getuser', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
+})
+.then((response) => response.json())
+//Then with the data from the response in JSON...
+.then((data) => {
+  console.log('Success:', data);
+})
+//Then with the error genereted...
+.catch((error) => {
+  console.error('Error:', error);
+});
+
+//	
+
+//create inital typing test
+//create user string
+var personal_test = "";
 var char_check = [];
 
 //now, create mass string
 //create inital typing test
 
 //having problems with shift
-const init_test = "to be or not to be, that is the question: whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles and by opposing end them. to die, to sleep .- no more. and by a sleep, to say we end the heart-ache and the thousand natural shocks that flesh is heir to; 'tis a consummation devoutly to be wished. to die, to sleep .- to sleep, perchance to dream .- aye, there's the rub: for in that sleep of death, what dreams may come when we have shuffled off this mortal coil must give us pause. there's the respect that makes calamity of so long life:";
 //create user string
 var user_string = "";
 var diff_1 = 0;
@@ -63,12 +127,12 @@ document.addEventListener('keydown', function(event) {
     //do 0,1,2 check
     //the char at the length of the mass string
     //make sure its char to char check
-    if (cur_key == init_test.charAt(user_string.length)){
+    if (cur_key == personal_test.charAt(user_string.length)){
         user_string = user_string + keyboard_char[j];
         char_check[user_string.length] = 1;
     }
     //option to hit backspace and remove character from user_input string
-    if (cur_key != init_test.charAt(user_string.length)){
+    if (cur_key != personal_test.charAt(user_string.length)){
         char_check[user_string.length] = 2;
         user_string = user_string.slice(0, user_string.length);
         
@@ -88,3 +152,13 @@ document.addEventListener('keydown', function(event) {
 //    console.log(key_averages);
 });
     
+
+    </script>
+
+<div id="timer"><span class="value">0</span> seconds</div>
+
+
+
+
+</html>
+</DOCTYPE>

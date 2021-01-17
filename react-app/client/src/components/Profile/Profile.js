@@ -19,7 +19,7 @@ function Profile (){
   const get_user = async () => {
 		var user_email = fapp.auth().currentUser.email;
     // change to heroku thing
-    var data = await fetch('https://mytypee.herokuapp.com/getuser', { // Send User Info
+    var data = await fetch('http://localhost:3001/getuser', { // Send User Info
     method: 'POST',
     headers: {
     'Content-Type': 'application/json;charset=utf-8'
