@@ -35,13 +35,13 @@ function Typing_Test(props) {
 		if (i === mass_string.length-2){
 			if (props.loggedin){
 				console.log("LOGGEDIN")
-				window.location = "http://localhost:3000/#/profile"
+				window.location = "https://mytypee.herokuapp.com/#/profile"
 			} else if (props.loggedout){
 				console.log("LOGGEDIN")
-				window.location = "http://localhost:3000/#/signup"
+				window.location = "https://mytypee.herokuapp.com/#/signup"
 			} else {
 				console.log("LOGGEDIN")
-				window.location = "http://localhost:3000/#/"
+				window.location = "https://mytypee.herokuapp.com/"
 			}
 
 		}

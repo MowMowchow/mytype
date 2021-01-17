@@ -53,26 +53,26 @@ class About extends Component {
             <h1 className="heading3">The Team</h1>
               <div className="about-person-left-container">
               <div className= "about-person-left">
-                  <p>Jason Hou: 1B Computer Engineering at the University of Waterloo </p>
-                  <p2>Favourite Programming Language: Python</p2>
+                  <p>Jason Hou: 1B Computer Engineering at the University of Waterloo -</p>
+                  <p2> - Favourite Programming Language: Python</p2>
                 </div>
               </div>
               <div className= "about-person-right-container">
               <div className= "about-person-right">
-                <p>Christian Kapsales: 1B Computer Science at the University of Waterloo</p>
-                <p2>Favourite Programming Language: Java</p2>
+                <p>Christian Kapsales: 1B Computer Science at the University of Waterloo -</p>
+                <p2>- Favourite Programming Language: Java</p2>
                 </div>
               </div>
               <div className= "about-person-left-container">
               <div className= "about-person-left">
-                  <p>Ankit Batra: 1B Mechatronics Engineering at the University of Waterloo</p>
-                  <p2>Favourite Programming Language: C++ </p2>
+                  <p>Ankit Batra: 1B Mechatronics Engineering at the University of Waterloo -</p>
+                  <p2>- Favourite Programming Language: C++ </p2>
                 </div>
               </div>
               <div className= "about-person-right-container">
                 <div className= "about-person-right">
-                  <p>Aditya Mehrotra: 1st year Computer Science at the University of Toronto</p>
-                  <p2>Favourite Programming Language: Python</p2>
+                  <p>Aditya Mehrotra: 1st year Computer Science at the University of Toronto  -</p>
+                  <p2> -Favourite Programming Language: Python</p2>
                   </div>
                 </div>
               </div>

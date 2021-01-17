@@ -21,6 +21,8 @@ heroku git:remote -a mytypee
 
 >>>MUST CHANGE SingUp.js link before pushing
 >>>MUST CHANGE PROFILE.JS
+>>>MUST CHANGE EVENTPERSONAL.JS
+>>>chang typing routes
 git subtree push --prefix react-app heroku master
 
 heroku logs --app=mytypee

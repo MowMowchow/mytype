@@ -18,7 +18,7 @@ let mass_string = "";
 
 export const get_mappings = async () => {
 
-    const data = { "Email": "poopypranav@gmail.com" };
+    const data = { "Email": "poopypranav@gmail.com" }; // https://mytypee.herokuapp.com/getuser
     var mappings_temp = await fetch('https://mytypee.herokuapp.com/getuser', {
         method: 'POST',
         headers: {
