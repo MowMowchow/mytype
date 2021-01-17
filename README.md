@@ -1,5 +1,6 @@
 # MyType (HTN 2021)
 
+
 MyType is an easy solution to improve your typing skills! 
 
 ## Information
