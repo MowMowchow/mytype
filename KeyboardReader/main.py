@@ -63,6 +63,7 @@ class KeyboardReader:
                     words += 1
                     wpm_avg = (words / abs(timestart - time.time())) * 60
                     curr_word = ""
+                    print(wpm_avg)
 
             if abs(time_track - time.time()) >= 10 and event.event_type == "up" and len(event.name) <= 1:
                 users = db.users
@@ -213,7 +214,7 @@ class MainPage(tk.Frame):
         message = tk.Label(self, text=notice, bg="#2B2D42", fg="#D7E2E6", font=buttonFont, wraplength="150")
         message.pack(side="top", fill="x", pady=2)
 
-        notice1 = "To view your statistics, please login to your profile at <INSERT LINK>"
+        notice1 = "To view your statistics, please login to your profile at https://mytypee.herokuapp.com/"
 
         message1 = tk.Label(self, text=notice1, bg="#2B2D42", fg="#D7E2E6", font=buttonFont, wraplength="150")
         message1.pack(side="top", fill="x", pady=5)
