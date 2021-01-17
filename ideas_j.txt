@@ -1,15 +1,17 @@
 had to take out: $ . ""
 
-navbar
-home page
-profile
-login
-sign up
-profile
+navbar -> make responsive
+home page -> make responsive
+profile -> make responsive
+login -> make responsive
+sign up -> make responsive
 about
 typing screen
 endscreen
 
+*Fonts:
+Montserrat
+Karla
 
 https://www.name.com/github-students
 
@@ -18,6 +20,7 @@ https://www.name.com/github-students
 heroku git:remote -a mytypee
 
 >>>MUST CHANGE SingUp.js link before pushing
+>>>MUST CHANGE PROFILE.JS
 git subtree push --prefix react-app heroku master
 
 heroku logs --app=mytypee

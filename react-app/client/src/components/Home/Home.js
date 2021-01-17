@@ -3,8 +3,8 @@ import './Home.css';
 import { Link } from 'react-router-dom';
 
 
-const logKey = e => {
-	window.location.replace(window.location.href+'tt');
+const logKey = (e) => {
+	window.location.replace(window.location.href+'Typing_Test');
 }
 
 const Keypress = () => {

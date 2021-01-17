@@ -1,7 +1,7 @@
 import React, { Component, createContext } from 'react';
 import './Typing_Test.css'
 
-/*
+
 let time = 60; 
 let quotes_array = [ 
   "This is a test lol lol lol", 
@@ -11,8 +11,18 @@ let quotes_array = [
   "The only way to do great work is to love what you do."
 ]; 
 
+let timer_text = document.querySelector(".curr_time");
+let accuracy_text = document.querySelector(".curr_accuracy");
+let error_text = document.querySelector(".curr_errors");
+let cpm_text = document.querySelector(".curr_cpm");
+let wpm_text = document.querySelector(".curr_wpm");
 let quote_text = document.querySelector(".quote");
 let input_area = document.querySelector(".input_area");
+let restart_btn = document.querySelector(".restart_btn");
+let cpm_group = document.querySelector(".cpm");
+let wpm_group = document.querySelector(".wpm");
+let error_group = document.querySelector(".errors");
+let accuracy_group = document.querySelector(".accuracy");
 
 let timeLeft = time;
 let timeElapsed = 0;
@@ -55,11 +65,10 @@ function finishGame() {
   clearInterval(timer);
   input_area.disabled = true;
   quote_text.textContent = "Click on restart to start a new game.";
-  restart_btn.style.display = "block";
-  cpm = Math.round(((characterTyped / timeElapsed) * 60));
-  wpm = Math.round((((characterTyped / 5) / timeElapsed) * 60));
-  cpm_text.textContent = cpm;
-  wpm_text.textContent = wpm;
+  //cpm = Math.round(((characterTyped / timeElapsed) * 60));
+  //wpm = Math.round((((characterTyped / 5) / timeElapsed) * 60));
+  //cpm_text.textContent = cpm;
+  //wpm_text.textContent = wpm;
   cpm_group.style.display = "block";
   wpm_group.style.display = "block";
 }
@@ -73,7 +82,7 @@ function startGame() {
 }
 
 function resetValues() {
-  timeLeft = TIME_LIMIT;
+  timeLeft = time;
   timeElapsed = 0;
   errors = 0;
   total_errors = 0;
@@ -89,23 +98,26 @@ function resetValues() {
   error_text.textContent = 0;
 }
 
-*/
-
-
 class Typing_Test extends Component{
   render() {
     return (
       <div className="background">
         <div className="container">
           <div className="heading">
-            {/* MyType Custom Test: {time}  */}
+             MyType Custom Test:
+          </div>
+          <div class="wpm">
+            <div class="header_text">WPM</div>
+            <div class="curr_wpm">100</div>
+          </div>
+          <div class="cpm">
+            <div class="header_text">CPM</div>
+            <div class="curr_cpm">100</div>
           </div>
           </div> 
-            <textarea class="input_area">
-              {/* //placeholder="start typing here..."
-              //oninput="processCurrentText()"
-              //onfocus="startGame()"  */}
-              </textarea> 
+          <div class="quote">Click on the area below to start the game.</div>
+          <textarea class="input_area" placeholder="start typing here..." oninput="processCurrentText()"
+            onfocus="startGame()"></textarea>
           </div>
     )
   }

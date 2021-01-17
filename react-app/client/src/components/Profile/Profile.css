@@ -1,0 +1,111 @@
+.User-Container-Parent{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  min-height: 100vh;
+  background: #2B2D42;
+}
+
+.User-Container{
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+
+.Username-Container{
+
+}
+
+.Username-header{
+  margin-top: 80px;
+  font-size: 75px;
+  font-family: montserrat;
+  color: #FBFCFD;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.User-Info-Container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+}
+
+.User-Stats-Parent-Container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+
+.User-Stats-Container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.User-Stats-WPM{
+  font-size: 55px;
+  font-family: montserrat;
+  color: #FBFCFD;
+}
+
+.signout-btn{
+  font-family: montserrat;
+  border: none;
+  border: none;
+  font-size: 23px;
+  font-weight: 600;
+  background-color: #2FC6B7;
+  color: white;
+  border-radius:30px;
+  width: 80%;
+  height: 100%;
+  transition: .23s;
+  margin: auto;
+  min-height: 63px;
+  min-width: 350px;
+}
+
+.signout-btn:hover{
+  cursor: pointer;
+  font-family: montserrat;
+  font-weight: 600;
+  transform: scale(1.06);
+  transition: 0.33s; 
+  color: white;
+  background-color: #FE6D73;
+}
+
+.signout-btn:active {
+  outline: none;
+  box-shadow: none;
+}
+
+.signout-btn:focus{
+  outline: none;
+  box-shadow: none;
+}
+
+.User-Graph-Container {
+  
+}
+
+.User-Graph-Header {
+  font-size: 35px;
+  font-family: montserrat;
+  color: #FBFCFD;
+}
+
+.signout-btn-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 45px;
+  margin-bottom: 100px;
+}
