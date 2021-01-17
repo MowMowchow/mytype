@@ -19,7 +19,7 @@ let mass_string = "";
 export const get_mappings = async () => {
 
     const data = { "Email": "poopypranav@gmail.com" };
-    var mappings_temp = await fetch('http://localhost:3001/getuser', {
+    var mappings_temp = await fetch('https://mytypee.herokuapp.com/getuser', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ for(i = 0 ; i < size; i ++){
     for(j = 0; j < size; j ++){
         if (sorted_arr[i] == mappings_temp[keyboard_char[j]]){
             use = keyboard_char[j];
-            for(k = 0; k < 20; k ++){
+            for(k = 0; k < 50; k ++){
             if (words_array[k].includes(use)) {
                 mass_string = mass_string + words_array[k] + " ";
                 }
