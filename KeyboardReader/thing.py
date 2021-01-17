@@ -21,7 +21,6 @@ auth = firebase.auth()
 
 client = MongoClient("mongodb+srv://jason:Fuadisnot123@mytype.wfzap.mongodb.net/MyType?retryWrites=true&w=majority")
 db = client.get_database('MyType')
-users = db.users
 
 email_confirm = ""
 
@@ -35,7 +34,6 @@ class KeyboardReader:
         self._running = False
 
     def run(self, email):
-        already_saved_paths = users.find_one({'Email': str(email)})
 
         long = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
                 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -61,6 +59,7 @@ class KeyboardReader:
                     curr_word += event.name
                     # print("time taken between keys " + str(event.time - t1))
                     counts[event.name] += 1
+
                     averages[event.name] += (((event.time - t1) - averages[event.name]) / counts[event.name])
                     t1 = float(event.time)
 
@@ -69,13 +68,18 @@ class KeyboardReader:
                     wpm_avg = (words / abs(timestart - time.time())) * 60
                     curr_word = ""
                     print(wpm_avg)
+
             if abs(time_track - time.time()) > 20 and event.event_type == "up" and len(event.name) <= 1:
                 print("upload")
+                users = db.users
+
+                already_saved_paths = users.find_one({'Email': str(email)})
 
                 time_track = time.time()
                 newvalues = {"$set": {"Alphabet": averages}}
 
-                users.update_one(already_saved_paths, newvalues)
+                #print(averages)
+                print(users.update_one(already_saved_paths, newvalues).modified_count)
 
 
 class SampleApp(tk.Tk):
