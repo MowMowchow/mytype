@@ -63,7 +63,6 @@ class KeyboardReader:
                     words += 1
                     wpm_avg = (words / abs(timestart - time.time())) * 60
                     curr_word = ""
-                    print(wpm_avg)
 
             if abs(time_track - time.time()) >= 10 and event.event_type == "up" and len(event.name) <= 1:
                 users = db.users
@@ -78,10 +77,16 @@ class KeyboardReader:
                     else:
                         sum_avg_alphabet[key] = already_saved_paths['Alphabet'][key]
 
-                time_track = time.time()
-                newvalues = {"$set": {"Alphabet": sum_avg_alphabet}}
+                arr = already_saved_paths['wpm_list']
 
-                # print(averages)
+                new_arr = [wpm_avg]
+                for i in range(len(arr) - 1):
+                    new_arr.append(arr[i])
+
+                newvalues = {"$set": {"wpm_list": new_arr, "Alphabet": sum_avg_alphabet}}
+
+                time_track = time.time()
+
                 print(users.update_one(already_saved_paths, newvalues).modified_count)
 
 
@@ -135,6 +140,7 @@ class StartPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.configure(background='#2B2D42')
+
         def attempt_login():
             try:
                 email = entry_user.get()
@@ -153,16 +159,16 @@ class StartPage(tk.Frame):
 
         self.controller = controller
 
-        titleFont= tkfont.Font(family='MS Reference Sans Serif', name='buttonFont', size=20, weight='bold')
-        buttonFont= tkfont.Font(family='PT Sans Narrow', name='appHighlightFont', size=12, weight='bold')
+        titleFont = tkfont.Font(family='MS Reference Sans Serif', name='buttonFont', size=20, weight='bold')
+        buttonFont = tkfont.Font(family='PT Sans Narrow', name='appHighlightFont', size=12, weight='bold')
 
-        loginfont= tkfont.Font(family='MS Reference Sans Serif', name='loginfont', size=10)
+        loginfont = tkfont.Font(family='MS Reference Sans Serif', name='loginfont', size=10)
 
         title = tk.Label(self, text="MyType", font=titleFont, bg="#2B2D42", fg="#EDF2F4")
-        title.pack(side="top", fill="x", padx=20, pady = 5)
+        title.pack(side="top", fill="x", padx=20, pady=5)
 
         login_label = tk.Label(self, text="Username", font=buttonFont, bg="#2B2D42", fg="#E0BF6E")
-        login_label.pack(side="top", fill="x", padx=20, pady = 3)
+        login_label.pack(side="top", fill="x", padx=20, pady=3)
 
         entry_user = tk.Entry(self)
         entry_user.pack(padx='20', pady='5')
@@ -189,12 +195,12 @@ class MainPage(tk.Frame):
         self.controller = controller
         self.email = email
 
-        titleFont= tkfont.Font(family='MS Reference Sans Serif', name='buttonFont', size=20, weight='bold')
-        buttonFont= tkfont.Font(family='PT Sans Narrow', name='appHighlightFont', size=12, weight='bold')
-        loginfont= tkfont.Font(family='MS Reference Sans Serif', name='loginfont', size=10, weight='bold')
+        titleFont = tkfont.Font(family='MS Reference Sans Serif', name='buttonFont', size=20, weight='bold')
+        buttonFont = tkfont.Font(family='PT Sans Narrow', name='appHighlightFont', size=12, weight='bold')
+        loginfont = tkfont.Font(family='MS Reference Sans Serif', name='loginfont', size=10, weight='bold')
 
         title = tk.Label(self, text="MyType", font=titleFont, bg="#2B2D42", fg="#EDF2F4")
-        title.pack(side="top", fill="x", padx=20, pady = 5)
+        title.pack(side="top", fill="x", padx=20, pady=5)
 
         heading = tk.Label(self, text="Current Logged in user:", bg="#2B2D42", fg="#EDF2F4", font=loginfont)
         heading.pack(side="top", fill="x", pady=10)
