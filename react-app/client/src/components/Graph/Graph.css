@@ -1,6 +1,8 @@
 .skill-bars{
   padding: 25px 30px;
-  padding-left: 0;
+  padding-left: 5;
+  padding-right: 5;
+  padding-top: 0;
   width: 500px;
     /* background: #fff;
     box-shadow: 5px 5px 20px rgba(0,0,0,0.2);

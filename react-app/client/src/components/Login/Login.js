@@ -14,6 +14,7 @@ const Login = ({ history }) => {
     try{
       await fapp.auth().signInWithEmailAndPassword(email.value, password.value); // actual firebase auth action
       history.push('/profile');
+      
     } catch(error){alert(error);}
   }, [history]);
 

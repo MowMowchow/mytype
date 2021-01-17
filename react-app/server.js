@@ -73,12 +73,16 @@ app.post('/getuser', function(req, res){
     });
 })
 
-
-
-
-
-
-
+app.post('/getwpm', function(req, res){
+    User.find({Email: req.body.Email}, function(err, user_data){
+        if (err){
+            res.status(500).send({error:'Could not find user'});
+        } else {
+            console.log('found user');
+            res.status(200).send(user_data['wpm_list']);
+        }
+    });
+})
 
 
 app.listen(PORT, console.log('server hosted at {PORT}'));
