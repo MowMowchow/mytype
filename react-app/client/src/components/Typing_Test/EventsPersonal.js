@@ -57,7 +57,7 @@ for(i = 0 ; i < size; i ++){
     for(j = 0; j < size; j ++){
         if (sorted_arr[i] == mappings_temp[keyboard_char[j]]){
             use = keyboard_char[j];
-            for(k = 0; k < 50; k ++){
+            for(k = 0; k < 20; k ++){
             if (words_array[k].includes(use)) {
                 mass_string = mass_string + words_array[k] + " ";
                 }
@@ -70,7 +70,7 @@ for(i = 0 ; i < size; i ++){
     
 }
 //console.log(mass_string);
-return mass_string;
+return String(mass_string);
 }
 
 get_mappings()

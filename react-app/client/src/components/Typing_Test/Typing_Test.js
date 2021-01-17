@@ -1,125 +1,110 @@
-import React, { Component, createContext } from 'react';
-import './Typing_Test.css'
+import './Typing_Test.css';
+import React, { useEffect, useState, useCallback } from 'react';
+import fapp from '../../firebase_auth/base';
+import { get_mappings } from './EventsPersonal';
+import { Redirect } from 'react-router-dom';
+import 'whatwg-fetch';
+
+let spaces = 0;
+let time_Started = 0;
+let wpm = 0;
+let base = new Date();
+
+function Typing_Test(props) {
+	const [ letter, set_letter ] = useState('');
+	const [ loaded, set_loaded ] = useState(false);
+	const [ i, set_i ] = useState(0); // index in the string
+	const [ curr_string, set_curr_string ] = useState('');
+	const [ mass_string, set_mass_string ] = useState('');
+
+	// var user_email = fapp.auth().currentUser;
+	// console.log(user_email)
+
+	useEffect(() => {
+		get_mappings().then((data) => {
+			set_loaded(true);
+			set_mass_string(data);
+		});
+	}, []);
 
 
-let time = 60; 
-let quotes_array = [ 
-  "This is a test lol lol lol", 
-  "Array fo rglhasflk this is a string", 
-  "MyType is going to replace MonkeyType", 
-  "how fast can you type the word poggers", 
-  "The only way to do great work is to love what you do."
-]; 
 
-let timer_text = document.querySelector(".curr_time");
-let accuracy_text = document.querySelector(".curr_accuracy");
-let error_text = document.querySelector(".curr_errors");
-let cpm_text = document.querySelector(".curr_cpm");
-let wpm_text = document.querySelector(".curr_wpm");
-let quote_text = document.querySelector(".quote");
-let input_area = document.querySelector(".input_area");
-let restart_btn = document.querySelector(".restart_btn");
-let cpm_group = document.querySelector(".cpm");
-let wpm_group = document.querySelector(".wpm");
-let error_group = document.querySelector(".errors");
-let accuracy_group = document.querySelector(".accuracy");
+	const logKey = (e) => {
+		set_letter(e.key);
+		
+		if (i === mass_string.length-2){
+			if (props.loggedin){
+				console.log("LOGGEDIN")
+				window.location = "http://localhost:3000/#/profile"
+			} else if (props.loggedout){
+				console.log("LOGGEDIN")
+				window.location = "http://localhost:3000/#/signup"
+			} else {
+				console.log("LOGGEDIN")
+				window.location = "http://localhost:3000/#/"
+			}
 
-let timeLeft = time;
-let timeElapsed = 0;
-let total_errors = 0;
-let errors = 0;
-let accuracy = 0;
-let characterTyped = 0;
-let current_quote = "";
-let quoteNo = 0;
-let timer = null;
+		}
 
-function updateQuote() {
-  quote_text.textContent = null;
-  current_quote = quotes_array[quoteNo];
 
-  current_quote.split('').forEach(char => {
-    const charSpan = document.createElement('span')
-    charSpan.innerText = char
-    quote_text.appendChild(charSpan)
-  })
 
-  if (quoteNo < quotes_array.length - 1)
-    quoteNo++;
-  else
-    quoteNo = 0;
-}
+		if (e.key === mass_string[i]) {
 
-function updateTimer() {
-  if (timeLeft > 0) {
-    timeLeft--;
-    timeElapsed++;
-    timer_text.textContent = timeLeft + "s";
-  }
-  else {
-    finishGame();
-  }
-}
+    if (i === 0) {
+      time_Started = base.getTime()
+    } else {
+      wpm = spaces / ((new Date().getTime() - time_Started)/(60000))
+      console.log(wpm)
+    }
 
-function finishGame() {
-  clearInterval(timer);
-  input_area.disabled = true;
-  quote_text.textContent = "Click on restart to start a new game.";
-  //cpm = Math.round(((characterTyped / timeElapsed) * 60));
-  //wpm = Math.round((((characterTyped / 5) / timeElapsed) * 60));
-  //cpm_text.textContent = cpm;
-  //wpm_text.textContent = wpm;
-  cpm_group.style.display = "block";
-  wpm_group.style.display = "block";
-}
+    if (e.which === 32){
+      spaces = spaces + 1;
 
-function startGame() {
+    }
+    
+			console.log('matching!');
+			set_i((prevI) => prevI + 1);
+			set_curr_string((prevI) => prevI + e.key);
+		} else {
+			console.log('e.key = ', e.key, ' and phrase[i] = ', mass_string[i], ' do not match | i = ', i);
+		}
+	};
 
-  resetValues();
-  updateQuote();
-  clearInterval(timer);
-  timer = setInterval(updateTimer, 1000);
-}
+	const Keypress = () => {
+		useEffect(() => {
+			window.addEventListener('keypress', logKey);
+			return () => {
+				window.removeEventListener('keypress', logKey);
+			};
+		}, []);
+		return null;
+	};
 
-function resetValues() {
-  timeLeft = time;
-  timeElapsed = 0;
-  errors = 0;
-  total_errors = 0;
-  accuracy = 0;
-  characterTyped = 0;
-  quoteNo = 0;
-  input_area.disabled = false;
+	return (
+	
 
-  input_area.value = "";
-  quote_text.textContent = 'Click on the area below to start the game.';
-  accuracy_text.textContent = 100;
-  timer_text.textContent = timeLeft + 's';
-  error_text.textContent = 0;
-}
 
-class Typing_Test extends Component{
-  render() {
-    return (
-      <div className="background">
-        <div className="container">
-          <div className="heading">
-             MyType Custom Test:
+			<div className="typing-test-container-wrapper">
+			<div className="typing-test-container">
+        			<Keypress />
+
+				<div className="text-container">
+          <div className="text-wrapper">
+            <div className="original-text-container">
+              <p className="original-text">{!loaded ? 'loading' : mass_string}</p>
+            </div>
+            <div className="layover-text-container">
+              <p className="layover-text">{curr_string}</p>
+            </div>
           </div>
-          <div class="wpm">
-            <div class="header_text">WPM</div>
-            <div class="curr_wpm">100</div>
-          </div>
-          <div class="cpm">
-            <div class="header_text">CPM</div>
-            <div class="curr_cpm">100</div>
-          </div>
-          </div> 
-          <div class="quote">Click on the area below to start the game.</div>
-          <textarea class="input_area" placeholder="start typing here..." oninput="processCurrentText()"
-            onfocus="startGame()"></textarea>
-          </div>
-    )
-  }
+				</div>
+				{/* <div className="input-text-container">
+					<p className="input-text">{curr_string}</p>
+				</div> */}
+			</div>
+			</div>
+		
+	);
 }
+
 export default Typing_Test;

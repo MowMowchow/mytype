@@ -51,8 +51,9 @@ function Profile (){
       console.log("user", user);
       set_loading(false);
       set_username(user.Username);
-      set_wpm_pb(user.wpm_pb);
-      set_wpm_6([user.wpm_list[0], user.wpm_list[1], user.wpm_list[2], user.wpm_list[3],user.wpm_list[4],user.wpm_list[5], user.wpm_list[6]])
+      set_wpm_6([user.wpm_list[0], user.wpm_list[1], user.wpm_list[2], user.wpm_list[3],user.wpm_list[4],user.wpm_list[5], user.wpm_list[6]]);
+      set_wpm_pb(parseInt(Math.max(...user.wpm_list)));
+
       var sortable = [];
       for (var i in user.Alphabet) {
           sortable.push([i, user.Alphabet[i]]);
@@ -67,7 +68,7 @@ function Profile (){
 	}, []);
 
   const data = {
-    labels: [1,4,6,7,8],
+    labels: [0,5,15,20],
     datasets: [
       {
         label: "First dataset",
@@ -85,10 +86,11 @@ function Profile (){
         <div className="Username-Container">
           <h2 className="Username-header">{username}</h2>
         </div>
+        <div className="begin"><h1 className="pogger">Click <a className="abt-downlink" href="https://github.com/MowMowchow/mytype/blob/master/KeyboardReader/dist/">[Here]</a> to begin tracking!</h1></div>
         <div className="User-Info-Container">
           <div className="User-Stats-Parent-Container">
             <div className="User-Stats-Container">
-              <h2 className="User-Stats-WPM">Highest WPM: {wpm_pb}</h2>
+              <h2 className="User-Stats-WPM">Highest Recent WPM: {wpm_pb}</h2>
               <div className="App">
 
               <Line
@@ -122,7 +124,7 @@ function Profile (){
         />
 
           <div className="User-Graph-Container">
-            <h3 className="User-Graph-Header">Slowest Words</h3>
+            <h3 className="User-Graph-Header">Slowest Letters</h3>
             <Graph arr={alphabet_10}  max={alphabet_10[9]}/>
           </div>
           </div>

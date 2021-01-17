@@ -18,12 +18,35 @@
 
 }
 
+.poggers {
+  font-size:23px;
+}
+.begin {
+  font-family: montserrat;
+  font-size: 5;
+  color:#FBFCFD;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 25px;
+}
+
+
+.abt-downlink {
+  color: #E6CC89;
+  text-decoration: none;
+}
+.abt-downlink:hover {
+  color: #FE6D73;
+  text-decoration: none;
+}
+
 .Username-header{
   margin-top: 80px;
   font-size: 75px;
   font-family: montserrat;
   color: #FBFCFD;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   text-align: center;
 }
 

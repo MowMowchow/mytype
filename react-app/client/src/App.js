@@ -14,7 +14,6 @@ import EndScreen from './components/EndScreen/EndScreen';
 import About from './components/About/About';
 import Nav from './components/Nav/Nav';
 import chart from './components/chart/chart';
-import Test1 from './components/Test1/Test1';
 
 
 
@@ -43,11 +42,10 @@ function App() {
             <Route path="/login" exact component={Login}/>
             <Route path="/signup" exact component={SignUp}/>
 						<Route path="/endscreen" exact component={EndScreen}/>
-						<Route path="/Typing_Test" exact component={Typing_Test}/>
+						<Route path="/Typing_Test" loggedin = {loggedIn} loggedout = {loggedOut} exact component={Typing_Test}/>
 						<Route path="/about" exact component={About}/>
 						<Route path="/chart" exact component={chart}/>
 						<PrivateRoute path="/profile" exact component={Profile}/>
-						<Route path="/test" exact component={Test1}/>
 					</Switch>
 				</div>
 			</Router>

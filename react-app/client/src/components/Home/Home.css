@@ -2,13 +2,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height : 100vh;
+    min-height : 100vh;
     background-color: #2B2D42;
 }
 
 #particles-js {
 	background: #12142c;
-	height: 100vh; /* calc(100vh - 58.4px); */
+	min-height: 100vh; /* calc(100vh - 58.4px); */
 	min-height: 728px;
 	display: flex;
 	flex-direction: column;
