@@ -1,3 +1,4 @@
+from tkinter import font as tkfont  # python 3
 import threading
 import tkinter as tk
 import pyrebase
@@ -6,9 +7,6 @@ import time
 from pymongo import MongoClient
 import logging
 
-client = MongoClient("mongodb+srv://jason:Fuadisnot123@mytype.wfzap.mongodb.net/MyType?retryWrites=true&w=majority")
-db = client.get_database('MyType')
-users = db.users
 firebaseConfig = {
     "apiKey": "AIzaSyAutqLzz7ib4oWEoOzSo95WwrHd4bpZqF8",
     "authDomain": "mytype-1702e.firebaseapp.com",
@@ -21,6 +19,11 @@ firebaseConfig = {
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
 
+client = MongoClient("mongodb+srv://jason:Fuadisnot123@mytype.wfzap.mongodb.net/MyType?retryWrites=true&w=majority")
+db = client.get_database('MyType')
+
+email_confirm = ""
+
 
 class KeyboardReader:
 
@@ -31,7 +34,6 @@ class KeyboardReader:
         self._running = False
 
     def run(self, email):
-        already_saved_paths = users.find_one({'Email': str(email)})
 
         long = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
                 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -48,9 +50,6 @@ class KeyboardReader:
         time_track, timestart = time.time(), time.time()
         curr_word = ""
 
-        print("adwad")
-        logging.info("Thread %s: starting", "thing")
-
         while self._running == True:
             event = keyboard.read_event()
             if event.event_type == "up":
@@ -59,8 +58,10 @@ class KeyboardReader:
                 elif t1 != 0 and len(event.name) <= 1:
                     curr_word += event.name
                     # print("time taken between keys " + str(event.time - t1))
-                    counts[event.name] += 1
-                    averages[event.name] += (((event.time - t1) - averages[event.name]) / counts[event.name])
+
+                    if abs(event.time - t1) <= 2:
+                        counts[event.name] += 1
+                        averages[event.name] += (((event.time - t1) - averages[event.name]) / counts[event.name])
                     t1 = float(event.time)
 
                 elif event.name == "space":
@@ -68,89 +69,119 @@ class KeyboardReader:
                     wpm_avg = (words / abs(timestart - time.time())) * 60
                     curr_word = ""
                     print(wpm_avg)
-            if abs(time_track - time.time()) > 20 and event.event_type == "up":
-                print("upload")
+
+            if abs(time_track - time.time()) > 20 and event.event_type == "up" and len(event.name) <= 1:
+                users = db.users
+
+                already_saved_paths = users.find_one({'Email': str(email)})
+
+                sum_avg_alphabet = {key: (already_saved_paths['Alphabet'][key] + averages[key]) / 2
+                                    for key in already_saved_paths['Alphabet']}
 
                 time_track = time.time()
-                newvalues = {"$set": {"alphabets": averages}}
+                newvalues = {"$set": {"Alphabet": sum_avg_alphabet}}
 
-                users.update_one(already_saved_paths, newvalues)
+                # print(averages)
+                users.update_one(already_saved_paths, newvalues).modified_count
 
 
 class App(tk.Tk):
-    def __init__(self):
-        tk.Tk.__init__(self)
-        self._frame = None
-        self.switch_frame(StartPage)
 
-    def switch_frame(self, frame_class):
-        new_frame = frame_class(self)
-        if self._frame is not None:
-            self._frame.destroy()
-        self._frame = new_frame
-        self._frame.pack()
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+
+        self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
+
+        # the container is where we'll stack a bunch of frames
+        # on top of each other, then the one we want visible
+        # will be raised above the others
+        self.container = tk.Frame(self)
+        self.container.pack(side="top", fill="both", expand=True)
+        self.container.grid_rowconfigure(0, weight=1)
+        self.container.grid_columnconfigure(0, weight=1)
+
+        self.frames = {}
+        for F in (StartPage, MainPage):
+            page_name = F.__name__
+            frame = F(parent=self.container, controller=self, email=None)
+            self.frames[page_name] = frame
+
+            # put all of the pages in the same location;
+            # the one on the top of the stacking order
+            # will be the one that is visible.
+            frame.grid(row=0, column=0, sticky="nsew")
+
+        self.show_frame("StartPage")
+
+    def show_frame(self, page_name, email=None):
+        '''Show a frame for the given page name'''
+        frame = self.frames[page_name]
+        frame.tkraise()
+        if email is not None:
+            k = KeyboardReader()
+            t = threading.Thread(target=k.run, args=(email,))
+            t.start()
+
+    def go_to_main(self, email):
+        '''Show a frame for the given page name'''
+        frame = MainPage(parent=self.container, controller=self, email=email)
+        frame.grid(row=0, column=0, sticky="nsew")
+
+        frame.tkraise()
+        k = KeyboardReader()
+        t = threading.Thread(target=k.run, args=(email,))
+        t.start()
 
 
 class StartPage(tk.Frame):
-    def __init__(self, master):
-        tk.Frame.__init__(self, master)
+
+    def __init__(self, parent, controller, email=None):
+        tk.Frame.__init__(self, parent)
+
+        self.email_confirm = ""
 
         def attempt_login():
-            email = entry_user.get()
-            password = entry_pass.get()
-            login = auth.sign_in_with_email_and_password(email, password)
-            status['text'] = "Logged in successfully"
-            master.switch_frame(MainPage)
+            try:
+                email = entry_user.get()
+                password = entry_pass.get()
+                login = auth.sign_in_with_email_and_password(email, password)
 
-        label_user = tk.Label(text="Login")
-        entry_user = tk.Entry()
-        label_pass = tk.Label(text="Password")
-        entry_pass = tk.Entry()
-        button = tk.Button(
-            text="Click me!",
-            width=25,
-            height=5,
-            bg="blue",
-            fg="yellow",
-            command=attempt_login
-        )
+                controller.go_to_main(email)
+            except:
+                status['text'] = "Invalid email or password"
 
-        status = tk.Label(text="")
+        self.controller = controller
+        login_label = tk.Label(self, text="Username")
+        login_label.pack(side="top", fill="x", pady=10)
 
-        label_user.pack()
+        entry_user = tk.Entry(self)
         entry_user.pack()
+
+        label_pass = tk.Label(self, text="Password")
         label_pass.pack()
+
+        entry_pass = tk.Entry(self)
         entry_pass.pack()
-        button.pack()
-        status.pack()
+
+        button2 = tk.Button(self, text="Login",
+                            command=attempt_login)
+        button2.pack()
+
+        status = tk.Label(self, text="")
+        status.pack(side="top", fill="x", pady=10)
 
 
 class MainPage(tk.Frame):
-    def __init__(self, master):
-        tk.Frame.__init__(self, master)
 
-        label_user = tk.Label(text="Login")
-        entry_user = tk.Entry()
-        label_pass = tk.Label(text="Password")
-        entry_pass = tk.Entry()
-        button = tk.Button(
-            text="Click me!",
-            width=25,
-            height=5,
-            bg="blue",
-            fg="yellow"
-        )
+    def __init__(self, parent, controller, email):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        self.email = email
 
-        status = tk.Label(text="")
-
-        label_user.pack()
-        entry_user.pack()
-        label_pass.pack()
-        entry_pass.pack()
-        button.pack()
-        status.pack()
+        label = tk.Label(self, text=self.email, font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
 
 
 if __name__ == "__main__":
-    a = App()
-    a.mainloop()
+    app = App()
+    app.mainloop()
