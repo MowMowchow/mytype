@@ -58,9 +58,10 @@ class KeyboardReader:
                 elif t1 != 0 and len(event.name) <= 1:
                     curr_word += event.name
                     # print("time taken between keys " + str(event.time - t1))
-                    counts[event.name] += 1
 
-                    averages[event.name] += (((event.time - t1) - averages[event.name]) / counts[event.name])
+                    if abs(event.time - t1) <= 2:
+                        counts[event.name] += 1
+                        averages[event.name] += (((event.time - t1) - averages[event.name]) / counts[event.name])
                     t1 = float(event.time)
 
                 elif event.name == "space":
@@ -70,16 +71,18 @@ class KeyboardReader:
                     print(wpm_avg)
 
             if abs(time_track - time.time()) > 20 and event.event_type == "up" and len(event.name) <= 1:
-                print("upload")
                 users = db.users
 
                 already_saved_paths = users.find_one({'Email': str(email)})
 
-                time_track = time.time()
-                newvalues = {"$set": {"Alphabet": averages}}
+                sum_avg_alphabet = {key: (already_saved_paths['Alphabet'][key] + averages[key]) / 2
+                                    for key in already_saved_paths['Alphabet']}
 
-                #print(averages)
-                print(users.update_one(already_saved_paths, newvalues).modified_count)
+                time_track = time.time()
+                newvalues = {"$set": {"Alphabet": sum_avg_alphabet}}
+
+                # print(averages)
+                users.update_one(already_saved_paths, newvalues).modified_count
 
 
 class SampleApp(tk.Tk):
@@ -100,7 +103,7 @@ class SampleApp(tk.Tk):
         self.frames = {}
         for F in (StartPage, MainPage):
             page_name = F.__name__
-            frame = F(parent=self.container, controller=self, email = None)
+            frame = F(parent=self.container, controller=self, email=None)
             self.frames[page_name] = frame
 
             # put all of the pages in the same location;
@@ -132,7 +135,7 @@ class SampleApp(tk.Tk):
 
 class StartPage(tk.Frame):
 
-    def __init__(self, parent, controller, email = None):
+    def __init__(self, parent, controller, email=None):
         tk.Frame.__init__(self, parent)
 
         self.email_confirm = ""
