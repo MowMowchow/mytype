@@ -1,60 +1,102 @@
 
-//get word api and copy code from events init
-
-// call datamuse api
-//format into string
-
-
-//when done, focus on optimizations (bs, bitsets, treemap)
-
 //create character check array
+
+const keyboard_char = ['a','b','c','d','e','f','g','h','i','j','k',
+'l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 
+'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 
+'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', 
+'-', '_', '=', '+',  '`', '~', '[', ']', '{', '}', '|', ';', ':', "'", '"', ',', '<', '.', '>', '/', '?', ' '];
+
+
 var char_check = [];
-var mass_string = "";
+let mass_string = "";
 
-//call to word generator API
-var HttpClient = function() {
-    this.get = function(aUrl, aCallback) {
-        var anHttpRequest = new XMLHttpRequest();
-        anHttpRequest.onreadystatechange = function() { 
-            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-                aCallback(anHttpRequest.responseText);
-        }
-
-        anHttpRequest.open( "GET", aUrl, true );            
-        anHttpRequest.send( null );
-    }
-}
-
-var client = new HttpClient();
-mass_string = client.get('https://random-word-api.herokuapp.com/word?number=1000', function(response) {
-});
 
 //Obj of data to send in future like a dummyDb
 const data = { "Email": 'poopypranav@gmail.com' };
 
-//POST request with body equal on data in JSON format
-fetch('localhost:3001/getuser', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(data),
+const get_mappings = async () => {
+    var mappings_temp = await fetch('http://localhost:3001/getuser', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data), 
+        }).then((response)=>response.json()).then((data)=>{
+        return data.Alphabet;
 })
-.then((response) => response.json())
-//Then with the data from the response in JSON...
-.then((data) => {
-  console.log('Success:', data);
-})
-//Then with the error genereted...
-.catch((error) => {
-  console.error('Error:', error);
-});
+//console.log(mappings_temp);
 
-//	
+var words_array = await fetch('https://random-word-api.herokuapp.com/word?number=1000', {
+        method: 'GET',
+            }).then((response)=>response.json()).then((data)=>{
+        return data;
+})
+
+//console.log(words_array);
+
+var size = Object.keys(mappings_temp).length;
+var sorted_arr = [];
+var t;
+for(t = 0; t < size; t ++){
+sorted_arr[t] = mappings_temp[keyboard_char[t]];
+}
+//make sure to reverse sort
+sorted_arr.sort();
+sorted_arr.reverse();
+
+//console.log(sorted_arr);
+var i;
+var j;
+var k;
+var use;
+for(i = 0 ; i < size; i ++){
+    for(j = 0; j < size; j ++){
+        if (sorted_arr[i] == mappings_temp[keyboard_char[j]]){
+            use = keyboard_char[j];
+            for(k = 0; k < 300; k ++){
+            if (words_array[k].includes(use)) {
+                mass_string = mass_string + words_array[k] + " ";
+                }
+                
+            }
+            break;
+        }
+        break;
+    }
+    
+}
+//console.log(mass_string);
+return mass_string;
+}
+
+get_mappings()
+
+
+
+// //POST request with body equal on data in JSON format
+//  fetch('http://localhost:3001/getuser', {
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+//   body: JSON.stringify(data),
+// })
+// .then((response) => response.json())//Then with the data from the response in JSON...
+// .then((data) =>  mappings = data.Alphabet)
+
+// //Then with the error genereted...
+// .catch((error) => {
+//   console.error('Error:', error);
+// });
+
+// console.log(mappings);
+// console.log('peepoopoeproeprp');
+// //	
 
 //create inital typing test
 //create user string
-var personal_test = "";
 var char_check = [];
 
 //now, create mass string
@@ -66,7 +108,7 @@ var user_string = "";
 var diff_1 = 0;
 var diff_2 = 0;
 var value;
-var occur_sum = 0;
+var personal_test = mass_string;
 
 var cur_key = '';
 
@@ -88,15 +130,6 @@ let key_averages = {'a': 0, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'f': 0, 'g': 0, 'h':
 
 // ????????? for some reason this is buggy
 key_averages['a'] = 0 
-
-const keyboard_char = ['a','b','c','d','e','f','g','h','i','j','k',
-'l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 
-'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 
-'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', 
-'-', '_', '=', '+',  '`', '~', '[', ']', '{', '}', '|', ';', ':', "'", '"', ',', '<', '.', '>', '/', '?', ' '];
-
-
 
 document.addEventListener('onkeydown', function(event) {
 	if (event.key == 'Backspace') {user_string = user_string.slice(0, occur_sum-1)};
@@ -143,4 +176,5 @@ document.addEventListener('keydown', function(event) {
     }
 //    console.log(key_averages);
 });
+    
     
