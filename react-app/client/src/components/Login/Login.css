@@ -83,11 +83,11 @@
 	font-family: nunito;
 	font-size: 17px;
 	font-weight: 500;
-	border-radius: 2px;
+	border-radius: 5px;
 }
 
 .login-password-container {
-	margin-bottom: 50px;
+	margin-bottom: 40px;
 	font-family: Montserrat;
 }
 
@@ -139,7 +139,7 @@
 .signup-link {
 	font-family: Montserrat;
 	color: white;
-	font-size: 25px;
+	font-size: 20px;
 	
 }
 

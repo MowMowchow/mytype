@@ -10,7 +10,7 @@ class About extends Component {
             About Us
           </div>
           <div className="abt-content-container">
-            <div className="project-container-info"></div>
+            <div className="project-container-info">
               <div className="heading1"><h1>What is MyType?</h1></div>
                 <div className="pog">
                   <p>MyType is the perfect way to improve your typing skills, 
@@ -21,8 +21,8 @@ class About extends Component {
                   try a quick typing test and view your stats now!
                   </p>
                   <p2>Master your typing skills now!</p2>
-                  <p>MyType is a full stack web application made with React.js, node.js, Python, MongoDB, and express.js. 
-              It is open-sourced and can be found on GitHub <p><a href="https://github.com/MowMowchow/mytype">Here</a></p>
+                  <p>MyType is a full stack web application made with React.js, Node.js, Python, MongoDB, and Express.js. 
+              It is open-sourced and can be found on <a className="abt-repolink" href="https://github.com/MowMowchow/mytype">[Github]</a>
               </p>
                 </div>
             <div className="project-container-info">
@@ -45,31 +45,36 @@ class About extends Component {
               <div className="step-block">
 								<p className="step-block-text"> 4) Become a typing master! </p>
 							</div>
-              
-            <div className="heading3"><h1>The Team</h1></div>
+            <div>
             </div>
-            <div className="about-person-left-container">
-            <div className= "about-person-left">
-                <p>Jason Hou: 1B Computer Engineering at the University of Waterloo </p>
-                <p2>Favourite Programming Language: Python</p2>
+            </div>
+
+            <div className="team-container">
+            <h1 className="heading3">The Team</h1>
+              <div className="about-person-left-container">
+              <div className= "about-person-left">
+                  <p>Jason Hou: 1B Computer Engineering at the University of Waterloo </p>
+                  <p2>Favourite Programming Language: Python</p2>
+                </div>
               </div>
-            </div>
-            <div className= "about-person-right-container">
-            <div className= "about-person-right">
-              <p>Christian Kapsales: 1B Computer Science at the University of Waterloo</p>
-              <p2>Favourite Programming Language: Java</p2>
-              </div>
-            </div>
-            <div className= "about-person-left-container">
-            <div className= "about-person-left">
-                <p>Ankit Batra: 1B Mechatronics Engineering at the University of Waterloo</p>
-                <p2>Favourite Programming Language: C++ </p2>
-              </div>
-            </div>
-            <div className= "about-person-right-container">
+              <div className= "about-person-right-container">
               <div className= "about-person-right">
-                <p>Aditya Mehrotra: 1st year Computer Science at the University of Toronto</p>
-                <p2>Favourite Programming Language: Python</p2>
+                <p>Christian Kapsales: 1B Computer Science at the University of Waterloo</p>
+                <p2>Favourite Programming Language: Java</p2>
+                </div>
+              </div>
+              <div className= "about-person-left-container">
+              <div className= "about-person-left">
+                  <p>Ankit Batra: 1B Mechatronics Engineering at the University of Waterloo</p>
+                  <p2>Favourite Programming Language: C++ </p2>
+                </div>
+              </div>
+              <div className= "about-person-right-container">
+                <div className= "about-person-right">
+                  <p>Aditya Mehrotra: 1st year Computer Science at the University of Toronto</p>
+                  <p2>Favourite Programming Language: Python</p2>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

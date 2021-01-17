@@ -1,10 +1,10 @@
 .nav-container{
-  position: absolute;
-  display: inline;
-  background: transparent;
-  z-index: 1000;
-  width: 100%;
-  margin-top: 5px;
+position: absolute;
+display: inline;
+background: transparent;
+z-index: 1000;
+width: 100%;
+margin-top: 5px;
 }
 
 .nav-mytype-container,
@@ -15,45 +15,79 @@
 }
 
 .nav-mytype-container{
-  margin-left: 15px;
-  float: left;
+margin-left: 15px;
+float: left;
 }
 
 .nav-about-container{
-  float: right;
-  margin-right: 10px;
+float: right;
+margin-right: 10px;
 }
 
 .nav-login-container{
-  float: right;
-  margin-right: 30px;
+float: right;
+margin-right: 30px;
 }
 
 .nav-profile-container{
-  float: right;
-  margin-right: 30px;
+float: right;
+margin-right: 30px;
 }
 
 
 .nav-link:hover{
-  text-decoration: none;
+text-decoration: none;
 }
 
 .nav-header{
-  color: #FBFCFD;
-  font-family: Montserrat;
-  font-size: 34px;
-  font-weight: 500;
-  transition: 0.15s; 
+color: #FBFCFD;
+font-family: Montserrat;
+font-size: 34px;
+font-weight: 500;
+transition: 0.15s; 
 }
 
 
 .nav-header:hover{
-  text-decoration: none;
-  color: #FE6D73 !important;
-  transition: 0.15s; 
+text-decoration: none;
+color: #FE6D73 !important;
+transition: 0.15s; 
 }
 
 .hidden {
-  display: none;
+display: none;
+}
+
+@media only screen and (max-width: 1200px){
+.nav-header{
+  font-size: 27px;
+
+}
+}
+
+@media only screen and (max-width: 800px){
+.nav-header{
+  font-size: 24px;
+}
+  
+.nav-mytype-container,
+.nav-about-container,
+.nav-login-container,
+.nav-profile-container{
+  float: none;
+  margin: 0;
+}
+
+.nav-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+}
+
+@media only screen and (max-width: 600px){
+.nav-header{
+  font-size: 22px;
+}
 }

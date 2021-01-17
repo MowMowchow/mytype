@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var user = new Schema({
     Username: String,
     Email: String,
-    wpm_pb: Number,
+    wpm_list: Array,
     Alphabet: Object
 });
 

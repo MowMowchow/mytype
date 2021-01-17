@@ -4,8 +4,26 @@ import fapp from '../../firebase_auth/base';
 import { Link } from 'react-router-dom';
 import 'whatwg-fetch';
 import Graph from '../Graph/Graph';
+import {Bar, Line} from 'react-chartjs-2';
 
-
+const data = {
+  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+  datasets: [
+    {
+      label: "First dataset",
+      data: [33, 53, 85, 41, 44, 65],
+      fill: true,
+      backgroundColor: "rgba(75,192,192,0.2)",
+      borderColor: "rgba(75,192,192,1)"
+    },
+    {
+      label: "Second dataset",
+      data: [33, 25, 35, 51, 54, 76],
+      fill: false,
+      borderColor: "#742774"
+    }
+  ]
+};
 
 
 function Profile (){
@@ -19,7 +37,7 @@ function Profile (){
   const get_user = async () => {
 		var user_email = fapp.auth().currentUser.email;
     // change to heroku thing
-    var data = await fetch('https://mytypee.herokuapp.com/getuser', { // Send User Info
+    var data = await fetch('http://localhost:3001/getuser', { // Send User Info
     method: 'POST',
     headers: {
     'Content-Type': 'application/json;charset=utf-8'
@@ -62,7 +80,9 @@ function Profile (){
           <div className="User-Stats-Parent-Container">
             <div className="User-Stats-Container">
               <h2 className="User-Stats-WPM">Best WPM: {wpm_pb}</h2>
-
+              <div className="App">
+              <Line data={data} />
+              </div>
               
 
             </div>

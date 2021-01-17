@@ -6,16 +6,43 @@
     background-color: #2B2D42;
 }
 
+#particles-js {
+	background: #12142c;
+	height: 100vh; /* calc(100vh - 58.4px); */
+	min-height: 728px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
 .start-prompt-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
     width: 100%;
-    margin-top: -5%;
+    margin-top: -30%;
 }
 
 .start-prompt{
     font-size: 100px;
     color: #EDF2F4;
     font-weight: 400;
+}
+
+@media only screen and (max-width: 1200px){
+    .start-prompt{
+        font-size: 70px;
+    }
+}
+
+@media only screen and (max-width: 800px){
+    .start-prompt{
+        font-size: 50px;
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .start-prompt{
+        font-size: 35px;
+    }
 }
