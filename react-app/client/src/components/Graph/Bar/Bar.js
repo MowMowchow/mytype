@@ -3,8 +3,9 @@ import React, { Component, useEffect, useState } from 'react';
 
 
 function Bar(props){
-  const high = .1;
-  const bar_length = Math.min(Math.max(20, (props.value/(high))*100), 100);
+  const high = 1;
+  // const bar_length = Math.min(Math.max(20, (props.value/(high))*100), 100);
+  const bar_length = (props.value/(high+.1))*100;
 // {props.value}
   return(
     <div className="bar">

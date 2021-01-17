@@ -4,7 +4,7 @@ var char_check = [];
 //create inital typing test
 
 //having problems with shift
-const init_test = "to be or not to be, that is the question: whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles and by opposing end them. to die, to sleep .- no more. and by a sleep, to say we end the heart-ache and the thousand natural shocks that flesh is heir to; 'tis a consummation devoutly to be wished. to die, to sleep .- to sleep, perchance to dream .- aye, there's the rub: for in that sleep of death, what dreams may come when we have shuffled off this mortal coil must give us pause. there's the respect that makes calamity of so long life:";
+const personal_test = "to be or not to be, that is the question: whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles and by opposing end them. to die, to sleep .- no more. and by a sleep, to say we end the heart-ache and the thousand natural shocks that flesh is heir to; 'tis a consummation devoutly to be wished. to die, to sleep .- to sleep, perchance to dream .- aye, there's the rub: for in that sleep of death, what dreams may come when we have shuffled off this mortal coil must give us pause. there's the respect that makes calamity of so long life:";
 //create user string
 var user_string = "";
 var diff_1 = 0;
@@ -63,12 +63,12 @@ document.addEventListener('keydown', function(event) {
     //do 0,1,2 check
     //the char at the length of the mass string
     //make sure its char to char check
-    if (cur_key == init_test.charAt(user_string.length)){
+    if (cur_key == personal_test.charAt(user_string.length)){
         user_string = user_string + keyboard_char[j];
         char_check[user_string.length] = 1;
     }
     //option to hit backspace and remove character from user_input string
-    if (cur_key != init_test.charAt(user_string.length)){
+    if (cur_key != personal_test.charAt(user_string.length)){
         char_check[user_string.length] = 2;
         user_string = user_string.slice(0, user_string.length);
         
